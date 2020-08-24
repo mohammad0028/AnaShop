@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8f05c360-80e0-4689-afc7-5d415ecf6be2" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-    </list>
+    <list default="true" id="8f05c360-80e0-4689-afc7-5d415ecf6be2" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -158,12 +156,12 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Django server.anashop" />
-      <item itemvalue="JavaScript Debug.test.html" />
-      <item itemvalue="JavaScript Debug.password_reset_form.html" />
       <item itemvalue="JavaScript Debug.password_reset_complete.html" />
+      <item itemvalue="JavaScript Debug.password_reset_form.html" />
+      <item itemvalue="JavaScript Debug.test.html" />
       <item itemvalue="Python.set_description" />
       <item itemvalue="Python.test7" />
+      <item itemvalue="Django server.anashop" />
     </list>
     <recent_temporary>
       <list>
@@ -255,6 +253,7 @@
       <workItem from="1597811675751" duration="12000" />
       <workItem from="1597811736539" duration="27000" />
       <workItem from="1598249003505" duration="55000" />
+      <workItem from="1598251058078" duration="7000" />
     </task>
     <servers />
   </component>
