@@ -1,2 +1,0 @@
-admin => mohammad:123
-ghayoom:ghayoom1234

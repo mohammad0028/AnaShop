@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8f05c360-80e0-4689-afc7-5d415ecf6be2" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ana_account/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/ana_account/models.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -255,6 +254,7 @@
       <workItem from="1597811475159" duration="158000" />
       <workItem from="1597811675751" duration="12000" />
       <workItem from="1597811736539" duration="27000" />
+      <workItem from="1598249003505" duration="55000" />
     </task>
     <servers />
   </component>
