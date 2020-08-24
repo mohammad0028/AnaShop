@@ -1,0 +1,17 @@
+{% load static %}
+{% for item in category_list %}
+
+    <div class="item {{ forloop.first|yesno:'active,' }}">
+        <div class="col-sm-6">
+            <h1>{{item.title}}</h1>
+            <p>{{ item.description |truncatewords:60 }}</p>
+            <a href="category-{{ item.slug }}">مشاهده محصولات</a>
+        </div>
+        <div class="col-sm-6">
+            <img style="width: 450px;height: 400px;margin-right: 10px;"
+                 src='{{ item.image.url }}'
+                 class="girl img-responsive" alt="{{ item.title }}"/>
+        </div>
+    </div>
+
+{% endfor %}

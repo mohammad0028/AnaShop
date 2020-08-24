@@ -1,0 +1,78 @@
+{% for comment in all_comments %}
+
+    <div>
+        <ul>
+            <li><a href=""><i class="fa fa-comment-o" style='font-size:24px'></i>نظر کاربر </a></li>
+            <li><a href=""><i class="fa fa-user"></i>{{ comment.writer_name }}</a></li>
+            <li><a href=""><i class="fa fa-clock-o"></i>{{ comment.timestamp | time }}</a></li>
+            <li><a href=""><i class="fa fa-calendar-o"></i>{{ comment.timestamp | date }}</a></li>
+        </ul>
+
+        <p>
+            <b>{{ comment.body }}</b>
+        </p>
+
+        <!-- reply button collapse -->
+        <div class="container col-sm-12">
+
+            <button type="button" class="btn btn-default" data-toggle="collapse" data-target="#{{ comment.id }}"
+                    style="border-radius: 10px;">پاسخ دادن
+            </button>
+
+            <div id="{{ comment.id }}" class="collapse">
+                <div class="form-group">
+                    <form method="post" name="reply_form">
+                        {% csrf_token %}
+
+                        <input type="hidden" name="hidden_input_form_name" value="reply_form">
+                        <input type="hidden" name="comment_id" value="{{ comment.id }}">
+
+                        <label for="usr">نام کاربر:</label>
+                        <input type="text" class="form-control" id="usr" placeholder="نام کاربر" name="user_name"
+                               required>
+                        <label for="comment">پاسخ:</label>
+                        <textarea class="form-control" rows="3" id="comment" placeholder="پاسخ خود را اینجا بنویسید"
+                                  name="reply" required></textarea>
+                        <button type="submit" class="btn btn-success" name="test_name">ثبت پاسخ</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <br><br><br><br>
+
+        {% for answer in comment.answers.all %}
+            <div class="container">
+                <ul class="">
+                    <li><a href=""><i class='fa fa-mail-reply-all' style='font-size:18px'></i>پاسخ کاربر </a></li>
+                    <li><a href=""><i class="fa fa-user"></i>{{ answer.writer_name }}</a></li>
+                    <li><a href=""><i class="fa fa-clock-o"></i>{{ answer.timestamp | time }}</a></li>
+                    <li><a href=""><i class="fa fa-calendar-o"></i>{{ answer.timestamp | date }}</a></li>
+                </ul>
+                <span>{{ answer.body }}</span><br><br><br>
+            </div>
+        {% endfor %}
+
+
+        <hr style="border-top: 10px solid darkslategray; border-radius: 5px;">
+
+    </div>
+
+{% endfor %}
+
+
+{# this is the form to write comments #}
+<form method="post" name="comment_form">
+    <h4><b>نظر خود را در مورد این محصول بنویسید</b></h4>
+    {% csrf_token %}
+    <input type="hidden" name="hidden_input_form_name" value="comment_form">
+    <span>
+        <input type="text" placeholder="نام و نام خانوادگـی" name="form_name" required>
+    </span>
+
+    <textarea placeholder="نظر خود را اینجا بنویسید" name="form_comment" required></textarea>
+
+    <button type="submit" class="btn btn-default pull-left">
+        ارسـال
+    </button>
+</form>

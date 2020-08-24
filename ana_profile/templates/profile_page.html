@@ -1,0 +1,89 @@
+{% extends 'profile_page_components/profile_mainlayout.html' %}
+{% load static %}
+
+
+{% block content %}
+    <section>
+        <div class="container">
+            <div class="row" style="margin-top: 40px;">
+
+                <div class="col-sm-9 padding-right">
+
+                    <table style="width:100%">
+                        <caption>اطلاعات شخصی</caption>
+                        <tr>
+                            <td class="col-one">نام و نام خانوادگی : <span
+                                    style="color: #2a6496">{{ current_user.first_name }} {{ current_user.last_name }}</span>
+                            </td>
+                            <td class="col-two">ایمیل : <span style="color: #2a6496;">{{ current_user.email }}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-one">شماره تلفن همراه : <span style="color: #2a6496;">
+                                {% if current_user.phone_number is None %} &nbsp; {% else %}
+                                    {{ current_user.phone_number }} {% endif %} </span>
+                            </td>
+
+                            <td class="col-two">کد ملی : <span style="color: #2a6496;">
+                                {% if current_user.melli_code is None %} &nbsp; {% else %}
+                                    {{ current_user.melli_code }}{% endif %}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" id="edit-btn"><a href="" style="color: orange;"><i class="fa fa-edit"
+                                                                                               style="font-size: 18px;color: orange;"></i>
+                                ویرایش اطلاعات شخصی</a></td>
+                        </tr>
+                    </table>
+
+                    <table style="width:100%; margin-top: 50px;">
+                        <caption>لیست سفارشات</caption>
+                        <tr>
+                            <th class="num">#</th>
+                            <th class="order-num">شماره سفارش</th>
+                            <th class="order-date">تاریخ ثبت سفارش</th>
+                            <th class="paying-price">مبلغ قابل پرداخت</th>
+                            <th class="total-price">مبلغ کل</th>
+                            <th class="paying-status">عملیات پرداخت</th>
+                            <th class="details">جزییات</th>
+                        </tr>
+                        <tr>
+                            <td class="num">1</td>
+                            <td class="order-num">21</td>
+                            <td class="order-date">1398/5/2</td>
+                            <td class="paying-price">57000 تومان</td>
+                            <td class="total-price">65000 تومان</td>
+                            <td class="paying-status">پرداخت موفق</td>
+                            <td class="details"><a href=""><i class="fa fa-hand-o-left"
+                                                              style="font-size: 20px;"></i></a></td>
+                        </tr>
+                        <tr>
+                            <td class="num">2</td>
+                            <td class="order-num">25</td>
+                            <td class="order-date">1397/6/14</td>
+                            <td class="paying-price">114000 تومان</td>
+                            <td class="total-price">136000 تومان</td>
+                            <td class="paying-status">پرداخت موفق</td>
+                            <td class="details"><a href=""><i class="fa fa-hand-o-left"></i></a></td>
+                        </tr>
+
+                    </table>
+
+                </div>
+
+                <div class="col-sm-3">
+                    <div class="left-sidebar">
+
+                        <img src="{{ current_user.profile_pic.url }}" alt="image" class="profile-img">
+                        <p class="user">{{ current_user.username }}</p>
+
+                        {% include 'profile_page_components/profile_sidebar_component.html' %}
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
