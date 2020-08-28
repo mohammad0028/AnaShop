@@ -13,16 +13,6 @@ from django.contrib.auth.base_user import AbstractBaseUser
 
 
 def profile_page(request):
-    # print(f'profile: {request.user}')
-    # print(request.session.session_key)
-    # print(f'profile page :{request.COOKIES.items()}')
-    # mytoken = request.COOKIES['csrftoken']
-    # myuser = MyCustomUserModel.objects.filter(csrftoken=mytoken)
-    # print(myuser)
-    # value = request.COOKIES.get('cookie_name')
-    # if value is not None:
-    # print(request.session.items())
-    # print(request.COOKIES.items())
 
     if request.user.is_authenticated:
 

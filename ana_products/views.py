@@ -1,11 +1,10 @@
 import itertools
-
 from django.http import Http404
-from django.shortcuts import render, get_object_or_404
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.shortcuts import render, get_object_or_404, redirect
+from django.core.paginator import Paginator
 from django.views.generic import ListView
+from ana_cart.models import CartItem, Cart
 from .models import Product, Category, SubCategory, Images, Comment, Answer
-
 from .utils import carousel_content_maker
 
 
@@ -38,22 +37,91 @@ class CategoryPage(ListView):
 
         context['subcategory_list'] = data
 
+        # add to shopping cart
+        if self.request.GET.get('addToCart'):
+            if self.request.user.is_authenticated:
+                context['showModal'] = True
+                addToCartProductId = self.request.GET.get('addToCart')
+                context['product_id'] = int(addToCartProductId)
+                addToCartProduct = get_object_or_404(Product, id=addToCartProductId)
+                current_user = self.request.user
+                cartItemMatch = CartItem.objects.filter(product=addToCartProduct, user=current_user, ordered=False)
+                # if current user has a CartItem for this product(already has this product in his cart shopping):
+                if cartItemMatch.exists() and cartItemMatch.count() == 1:
+                    context['modalMessage'] = 'این محصول قبلا به سبد خرید شما اضافه شده است.'
+                # else if user does not have this product already in cartItem model :
+                else:
+                    context['modalMessage'] = 'این محصول با موفقیت به سبد خرید شما اضافه شد.'
+                    cartMatch = Cart.objects.filter(user=current_user, ordered=False)
+                    # if there is Cart model for this user:
+                    # 1.create CartItem 2.add CartItem to Cart.products
+                    if cartMatch.exists():
+                        cartMatch = cartMatch.first()
+                        cartItem_obj = CartItem.objects.create(user=current_user, product=addToCartProduct)
+                        cartMatch.products.add(cartItem_obj)
+
+                    else:
+                        # if there is no Cart model for this user:
+                        # 1.create CartItem 2.create Cart 3.add CartItem to Cart.products
+                        cartItem_obj = CartItem.objects.create(user=current_user, product=addToCartProduct)
+                        cart_obj = Cart.objects.create(user=current_user)
+                        cart_obj.products.add(cartItem_obj)
+            else:
+                context['showModal'] = True
+                context['modalMessage'] = 'کاربر گرامی ، برای افزودن محصول به سبد خرید ابتدا وارد سایت شوید.'
+                context['product_id'] = int(self.request.GET.get('addToCart'))
+
         return context
 
 
 def all_products_page(request):
     pro_list = Product.objects.get_active_products().order_by('id')
     # paginator
-    paginator = Paginator(pro_list, 3)
+    paginator = Paginator(pro_list, 6)
     page_number = request.GET.get('page', 1)
     page_obj = paginator.get_page(page_number)
+
     context = {
         'page_obj': page_obj,
-        'paginator': paginator
+        'paginator': paginator,
     }
+
+    # add to shopping cart
+    if request.GET.get('addToCart'):
+        if request.user.is_authenticated:
+            context['showModal'] = True
+            addToCartProductId = request.GET.get('addToCart')
+            context['product_id'] = int(addToCartProductId)
+            addToCartProduct = get_object_or_404(Product, id=addToCartProductId)
+            current_user = request.user
+            cartItemMatch = CartItem.objects.filter(product=addToCartProduct, user=current_user, ordered=False)
+            # if current user has a CartItem for this product(already has this product in his cart shopping):
+            if cartItemMatch.exists() and cartItemMatch.count() == 1:
+                context['modalMessage'] = 'این محصول قبلا به سبد خرید شما اضافه شده است.'
+            # else if user does not have this product already in cartItem model :
+            else:
+                context['modalMessage'] = 'این محصول با موفقیت به سبد خرید شما اضافه شد.'
+                cartMatch = Cart.objects.filter(user=current_user, ordered=False)
+                # if there is Cart model for this user:
+                # 1.create CartItem 2.add CartItem to Cart.products
+                if cartMatch.exists():
+                    cartMatch = cartMatch.first()
+                    cartItem_obj = CartItem.objects.create(user=current_user, product=addToCartProduct)
+                    cartMatch.products.add(cartItem_obj)
+
+                else:
+                    # if there is no Cart model for this user:
+                    # 1.create CartItem 2.create Cart 3.add CartItem to Cart.products
+                    cartItem_obj = CartItem.objects.create(user=current_user, product=addToCartProduct)
+                    cart_obj = Cart.objects.create(user=current_user)
+                    cart_obj.products.add(cartItem_obj)
+
+        else:
+            return redirect('/login')
+
     return render(request, 'products/products_list.html', context)
 
-    # second way(below):
+    # second way to have paginator(below):
     # pro_list = Product.objects.get_active_products().order_by('id')
     # page_number = request.GET.get('page', 1)
     #
@@ -77,6 +145,45 @@ class ProductsList(ListView):
 
     def get_queryset(self):
         return Product.objects.get_active_products()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # add to shopping cart with modal
+        if self.request.GET.get('addToCart'):
+            if self.request.user.is_authenticated:
+                context['showModal'] = True
+                addToCartProductId = self.request.GET.get('addToCart')
+                context['product_id'] = int(addToCartProductId)
+                addToCartProduct = get_object_or_404(Product, id=addToCartProductId)
+                current_user = self.request.user
+                cartItemMatch = CartItem.objects.filter(product=addToCartProduct, user=current_user, ordered=False)
+                # if current user has a CartItem for this product(already has this product in his cart shopping):
+                if cartItemMatch.exists() and cartItemMatch.count() == 1:
+                    context['modalMessage'] = 'این محصول قبلا به سبد خرید شما اضافه شده است.'
+                # else if user does not have this product already in cartItem model :
+                else:
+                    context['modalMessage'] = 'این محصول با موفقیت به سبد خرید شما اضافه شد.'
+                    cartMatch = Cart.objects.filter(user=current_user, ordered=False)
+                    # if there is Cart model for this user:
+                    # 1.create CartItem 2.add CartItem to Cart.products
+                    if cartMatch.exists():
+                        cartMatch = cartMatch.first()
+                        cartItem_obj = CartItem.objects.create(user=current_user, product=addToCartProduct)
+                        cartMatch.products.add(cartItem_obj)
+
+                    else:
+                        # if there is no Cart model for this user:
+                        # 1.create CartItem 2.create Cart 3.add CartItem to Cart.products
+                        cartItem_obj = CartItem.objects.create(user=current_user, product=addToCartProduct)
+                        cart_obj = Cart.objects.create(user=current_user)
+                        cart_obj.products.add(cartItem_obj)
+            else:
+                context['showModal'] = True
+                context['modalMessage'] = 'کاربر گرامی ، برای افزودن محصول به سبد خرید ابتدا وارد سایت شوید.'
+                context['product_id'] = int(self.request.GET.get('addToCart'))
+
+        return context
 
 
 # the second way to get data from url is like below:
@@ -111,6 +218,40 @@ def product_detail(request, *args, **kwargs):
         'suggested_products': suggested_products,
         'all_comments': all_comments
     }
+
+    # add to shopping cart with modal
+    if request.GET.get('addToCart'):
+        if request.user.is_authenticated:
+            context['showModal'] = True
+            addToCartProductId = request.GET.get('addToCart')
+            context['product_id'] = int(addToCartProductId)
+            addToCartProduct = get_object_or_404(Product, id=addToCartProductId)
+            current_user = request.user
+            cartItemMatch = CartItem.objects.filter(product=addToCartProduct, user=current_user, ordered=False)
+            # if current user has a CartItem for this product(already has this product in his cart shopping):
+            if cartItemMatch.exists() and cartItemMatch.count() == 1:
+                context['modalMessage'] = 'این محصول قبلا به سبد خرید شما اضافه شده است.'
+            # else if user does not have this product already in cartItem model :
+            else:
+                context['modalMessage'] = 'این محصول با موفقیت به سبد خرید شما اضافه شد.'
+                cartMatch = Cart.objects.filter(user=current_user, ordered=False)
+                # if there is Cart model for this user:
+                # 1.create CartItem 2.add CartItem to Cart.products
+                if cartMatch.exists():
+                    cartMatch = cartMatch.first()
+                    cartItem_obj = CartItem.objects.create(user=current_user, product=addToCartProduct)
+                    cartMatch.products.add(cartItem_obj)
+
+                else:
+                    # if there is no Cart model for this user:
+                    # 1.create CartItem 2.create Cart 3.add CartItem to Cart.products
+                    cartItem_obj = CartItem.objects.create(user=current_user, product=addToCartProduct)
+                    cart_obj = Cart.objects.create(user=current_user)
+                    cart_obj.products.add(cartItem_obj)
+
+        else:
+            return redirect('/login')
+
     return render(request, 'products/product_detail.html', context)
 
 
@@ -137,4 +278,3 @@ def comment_reply_function(request, product_id):
             comment_id = request.POST.get('comment_id')
             current_reply.reply_to = Comment.objects.get(pk=comment_id)
             current_reply.save()
-

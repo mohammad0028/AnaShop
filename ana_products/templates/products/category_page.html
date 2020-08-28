@@ -25,7 +25,8 @@
 
                                                     <div class="single-products">
                                                         <div class="productinfo text-center">
-                                                            <img style='width:250px;height: 200px;' src="{{ product.image.url }}" alt="">
+                                                            <img style='width:250px;height: 200px;'
+                                                                 src="{{ product.image.url }}" alt="">
                                                             <h2>{{ product.price }} تومان</h2>
                                                             <p>{{ product.title }}</p>
                                                             <a href="#" class="btn btn-default add-to-cart"><i
@@ -33,11 +34,19 @@
                                                                 خریـد</a>
                                                         </div>
 
+                                                        {# add to shopping cart modal #}
+                                                        {% if showModal and product.id == product_id %}
+                                                            {% include 'products/add_to_cart_modal_component.html' with modalMessage=modalMessage %}
+                                                        {% endif %}
+
                                                         <div class="product-overlay">
                                                             <div class="overlay-content">
                                                                 <h2>{{ product.price }} تومان</h2>
                                                                 <p>توضیحات کوتـاه محصـول</p>
-                                                                <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>افزودن به سبد خرید</a>
+                                                                <a href="?addToCart={{ product.id }}"
+                                                                   class="btn btn-default add-to-cart"><i
+                                                                        class="fa fa-shopping-cart"></i>افزودن به سبد
+                                                                    خرید</a>
                                                             </div>
                                                         </div>
 
@@ -76,17 +85,17 @@
             </div>
 
             <div class="col-sm-3">
-                    <div class="left-sidebar">
-                        <h2>دسته بندی محصولات</h2>
+                <div class="left-sidebar">
+                    <h2>دسته بندی محصولات</h2>
 
-                        {% include 'products/category_items_component.html' %}
+                    {% include 'products/category_items_component.html' %}
 
-                        <div class="shipping text-center"><!--shipping-->
-                            <img src="{% static 'images/home/shipping.jpg' %}" alt="">
-                        </div><!--/shipping-->
+                    <div class="shipping text-center"><!--shipping-->
+                        <img src="{% static 'images/home/shipping.jpg' %}" alt="">
+                    </div><!--/shipping-->
 
-                    </div>
                 </div>
+            </div>
 
         </div>
     </div>

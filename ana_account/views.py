@@ -1,15 +1,13 @@
 from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView, PasswordContextMixin
 from django.shortcuts import render, redirect
 from django.views.generic import FormView
-from django import forms
-from .forms import LoginForm, RegisterForm, CustomPasswordResetForm
-from django.contrib.auth import authenticate, logout, password_validation
-from django.contrib.auth.forms import SetPasswordForm
+from .forms import LoginForm, RegisterForm, CustomPasswordResetForm, MySetPasswordForm
+from django.contrib.auth import authenticate, logout, password_validation, get_user_model
 from .models import MyCustomUserModel
 from django.contrib.auth import login
 
 
-# -----------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------
 
 
 # Create your views here.
@@ -79,24 +77,6 @@ class MyPasswordResetView(PasswordResetView):
 
 
 # ------------------------------------------------------------------------------------------------
-
-
-class MySetPasswordForm(SetPasswordForm, forms.Form):
-    error_messages = {
-        'password_mismatch': 'کلمه عبور و تکرار آن یکسان نیستند.'
-    }
-    new_password1 = forms.CharField(
-        label="کلمه عبور جدید :",
-        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}),
-        strip=False,
-        help_text=password_validation.password_validators_help_text_html(),
-    )
-
-    new_password2 = forms.CharField(
-        label="تکرار کلمه عبور جدید :",
-        strip=False,
-        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}),
-    )
 
 
 class MyPasswordResetConfirmView(PasswordResetConfirmView, PasswordContextMixin, FormView):

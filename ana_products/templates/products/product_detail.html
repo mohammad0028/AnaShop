@@ -23,7 +23,7 @@
 
                                         <div class="item {% if forloop.counter0 == 0 %}active{% endif %} ">
                                             {% for img in values %}
-                                                <a href=""><img style="width:85px;height: 85px;"
+                                                <a href=""><img alt="تصویر" style="width:85px;height: 85px;"
                                                                 src="{{ img.mini_image.url }}"></a>
                                             {% endfor %}
                                         </div>
@@ -55,10 +55,17 @@
                                     <span>
 										<label>تعداد :</label>
 										<input type="text" value="3" class="search_box">
-										<button type="button" class="btn btn-fefault cart">
-											<i class="fa fa-shopping-cart"></i>
-											افـزودن به سبـد خریـد
-										</button>
+
+                                        {# add to shopping cart modal #}
+                                        {% if showModal and product.id == product_id %}
+                                            {% include 'products/add_to_cart_modal_component.html' with modalMessage=modalMessage %}
+                                        {% endif %}
+
+
+                                        <a href="?addToCart={{ product.id }}"
+                                           class="btn btn-fefault cart"><i
+                                                class="fa fa-shopping-cart"></i>افزودن به سبد
+                                                                    خرید</a>
 									</span>
                                 </div>
                                 <div>

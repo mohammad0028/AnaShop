@@ -1,0 +1,29 @@
+<div id="modalOnAddCartAction"
+         style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; display: flex; justify-content: center; align-items: center; background-color: #00000027; z-index: 12000">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h5 class="modal-title">افزودن به سبد خرید</h5>
+                </div>
+                <div class="modal-body">
+                    <p>{{ modalMessage }}</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"
+                            onclick="
+                            let modalOnAddCartAction = document.getElementById('modalOnAddCartAction');
+                            modalOnAddCartAction.parentNode.removeChild(modalOnAddCartAction)
+"
+                    >بستن
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+

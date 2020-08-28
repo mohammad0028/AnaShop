@@ -23,3 +23,5 @@ def is_products_in_navbar_active(request):
         'is_active': False
     }
     return result
+
+

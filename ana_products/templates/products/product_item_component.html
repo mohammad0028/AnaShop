@@ -2,19 +2,35 @@
     <div class="product-image-wrapper">
         <div class="single-products">
             <div class="productinfo text-center">
-                <img style='width:250px;height: 200px;'src="{{ product.image.url }}" alt="{{ product.title }} ">
+                <img style='width:250px;height: 200px;' src="{{ product.image.url }}" alt="{{ product.title }} ">
                 <h2>{{ product.price }} تومان </h2>
                 <p>{{ product.title }}</p>
-                <a href="#" class="btn btn-default add-to-cart"><i
+                <a href="?page={{ page_number }}&addToCart={{ product.id }}" class="btn btn-default add-to-cart"><i
                         class="fa fa-shopping-cart"></i>افزودن به سبـد خریـد</a>
             </div>
+
+
+            {#      this is for modal that appears when you add a product to your shopping cart:      #}
+            {% if showModal and product.id == product_id %}
+                {% include 'products/add_to_cart_modal_component.html' with modalMessage=modalMessage %}
+            {% endif %}
+
 
             <div class="product-overlay">
                 <div class="overlay-content">
                     <h2>{{ product.price }} تومان </h2>
                     <p>{{ product.title }}</p>
-                    <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>افزودن به سبـد
-                        خریـد</a>
+
+                    {# this is for for when user searches sth(it comes from search view in search app) #}
+                    {% if search %}
+                        <a href="?q={{ search }}&page={{ page_number }}&addToCart={{ product.id }}" class="btn btn-default add-to-cart"><i
+                            class="fa fa-shopping-cart"></i>افزودن به سبـد خریـد</a>
+                    {% else %}
+                        {# and this is when user does not search and wants to add a product to shopping cart regularly #}
+                        <a href="?page={{ page_number }}&addToCart={{ product.id }}" class="btn btn-default add-to-cart"><i
+                            class="fa fa-shopping-cart"></i>افزودن به سبـد خریـد</a>
+                    {% endif %}
+
                 </div>
             </div>
 
@@ -29,3 +45,5 @@
         </div>
     </div>
 </div>
+
+

@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'ana_products',
     'search',
     'ana_profile',
+    'ana_cart'
 ]
 
 # During development only

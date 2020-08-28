@@ -1,5 +1,6 @@
 from django import forms
-from django.contrib.auth.forms import PasswordResetForm
+from django.contrib.auth import password_validation
+from django.contrib.auth.forms import PasswordResetForm, SetPasswordForm
 from django.contrib.auth.models import User
 
 
@@ -89,3 +90,20 @@ class CustomPasswordResetForm(PasswordResetForm):
         widget=forms.EmailInput(attrs={'autocomplete': 'email', 'placeholder': 'ایمیل را وارد کنید'})
     )
 
+
+class MySetPasswordForm(SetPasswordForm, forms.Form):
+    error_messages = {
+        'password_mismatch': 'کلمه عبور و تکرار آن یکسان نیستند.'
+    }
+    new_password1 = forms.CharField(
+        label="کلمه عبور جدید :",
+        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}),
+        strip=False,
+        help_text=password_validation.password_validators_help_text_html(),
+    )
+
+    new_password2 = forms.CharField(
+        label="تکرار کلمه عبور جدید :",
+        strip=False,
+        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}),
+    )
