@@ -3,6 +3,8 @@ from django.http import Http404
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator
 from django.views.generic import ListView
+
+from ana_account.models import MyCustomUserModel
 from ana_cart.models import CartItem, Cart
 from .models import Product, Category, SubCategory, Images, Comment, Answer
 from .utils import carousel_content_maker

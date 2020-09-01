@@ -40,12 +40,25 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_render_partial',
 
+
     # my created apps
     'ana_products',
     'search',
     'ana_profile',
     'ana_cart'
 ]
+
+
+
+# thousand separator
+USE_L10N = True
+DECIMAL_SEPARATOR = '.'
+USE_THOUSAND_SEPARATOR = True
+THOUSAND_SEPARATOR = ','
+NUMBER_GROUPING = 3
+
+
+
 
 # During development only
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # During development only
@@ -91,6 +104,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'ana_products.context_processors.navbar',
                 'ana_products.context_processors.is_products_in_navbar_active',
+                'ana_products.context_processors.get_current_user',
             ],
         },
     },

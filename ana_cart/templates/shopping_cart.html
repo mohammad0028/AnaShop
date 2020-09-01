@@ -1,0 +1,193 @@
+{% extends 'shared/_MainLayout.html' %}
+{% load static %}
+{% load l10n %}
+
+{% block content %}
+
+    <section id="cart_items">
+        <div class="container">
+
+            {% if orders %}
+                <div class="breadcrumbs">
+
+                    <ol class="breadcrumb">
+                        <li><a href="#">خانـه</a></li>
+                        <li class="active">پرداخت</li>
+                    </ol>
+                </div><!--/breadcrums-->
+
+                <div class="table-responsive cart_info">
+                <table class="table table-condensed">
+                <thead>
+                <tr class="cart_menu">
+                    <td class="image">کـالا</td>
+                    <td class="description"></td>
+                    <td class="price">قیمت</td>
+                    <td class="quantity">تعـداد</td>
+                    <td class="total">مجمـوع</td>
+                    <td class="total" style="width: 7%;">حذف</td>
+                    <td></td>
+                </tr>
+                </thead>
+                <tbody>
+
+                {% for order in orders %}
+                    <tr>
+                        <td class="cart_product">
+                            <a href=""><img src="{{ order.product.image.url }}"
+                                            style="width: 100px;height: 100px;" alt="image"></a>
+                        </td>
+                        <td class="cart_description">
+                            <h4><a href="">{{ order.product.title }}</a></h4>
+                        </td>
+                        <td class="cart_price">
+                            <p>{{ order.product.price|localize }}&nbsp;ریال</p>
+                        </td>
+                        <td class="cart_quantity">
+                            <div class="cart_quantity_button">
+                                <a class="cart_quantity_up" href="?addQuantity={{ order.product.id }}"> + </a>
+                                <input class="cart_quantity_input" type="text" name="quantity"
+                                       value="{{ order.quantity }}"
+                                       autocomplete="off" size="2">
+                                <a class="cart_quantity_down"
+                                   href="{% if order.quantity > 1 %}?subtractQuantity={{ order.product.id }} {% else %} {% endif %} ">
+                                    - </a>
+                            </div>
+                        </td>
+                        <td class="cart_total">
+                            <p class="cart_total_price">{{ order.total_price }} ریال</p>
+                        </td>
+                        <td class="cart_delete">
+                            <a class="cart_quantity_delete" href="?deleteOrder={{ order.id }}"
+                               style="color: #c7254e;"><i
+                                    class="fa fa-times"></i></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% elif noShoppingCartForThisUser %}
+                <div class="text-center col-md-6 col-md-offset-4" style="margin-top: 70px;margin-bottom: 90px;">
+                    <img src="{% static 'images/home/empty-shopping-basket1.jpg' %}" alt="image"
+                         style="width: 220px;height: 220px;margin-bottom: 30px;">
+                    <h6 style="display: block;margin-right: auto;margin-left: auto;color: #ff8015;font-size: 30px;">سبد
+                        خرید شما خالیست!</h6>
+                </div>
+            {% endif %}
+
+            </tbody>
+            </table>
+            </div>
+
+        </div>
+    </section> <!--/#cart_items-->
+
+
+    {% if showModal %}
+        {% include 'shoppingCartModal.html' with message=message %}
+    {% endif %}
+
+
+    {% if orders %}
+        <section id="do_action">
+            <div class="container">
+
+                <div class="heading">
+                    <h3>نهایی کردن سفارش یا ادامه خریـد ؟! </h3>
+                    <p>در صورتیکـه کوپن خریـد و یا کد تخفیف داریـد میتوانید از آن استفاده نمایید | با استفاده از بخش
+                        مربوطه
+                        هزینه حمل و نقل خود را محاسبـه نمایید</p>
+                </div>
+
+{#                {% if showModal %}#}
+{#                    {% include 'shoppingCartModal.html' with message=message %}#}
+{#                {% endif %}#}
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="chose_area">
+
+                            <form method="post" name="discountForm">
+                                {% csrf_token %}
+                                <input type="hidden" name="hidden_input_form_name" value="discountForm">
+
+                                <ul class="user_option">
+                                    <li>
+                                        <h3>استفاده از کوپـن خریـد / کارت تخفیـف :</h3>
+                                    </li>
+                                    <li class="single_field zip-field">
+                                        <input type="text" name="coupon_code"
+                                               placeholder="کد تخفیف خود را وارد نمایید ...">
+                                    </li>
+                                    <li>
+                                        <button type="submit" class="btn btn-default update">بررسی و اعمال</button>
+                                    </li>
+                                </ul>
+                            </form>
+
+                            <ul class="user_info">
+                                <h3>محاسبـه هزینـه حمل و نقل</h3>
+                                <li class="single_field">
+                                    <label>استان :</label>
+                                    <select>
+                                        <option>تهـران</option>
+                                        <option>اصفهان</option>
+                                        <option>آذربایجان غربـی</option>
+                                        <option>آذربایجان شرقـی</option>
+                                    </select>
+
+                                </li>
+                                <li class="single_field">
+                                    <label>شهر / منطقه</label>
+                                    <select>
+                                        <option>تهران</option>
+                                        <option>اصفهان</option>
+                                        <option>خـوی</option>
+                                        <option>تبریـز</option>
+                                    </select>
+
+                                </li>
+                                <li class="single_field zip-field">
+                                    <label>کد پستی :</label>
+                                    <input type="text">
+                                </li>
+                            </ul>
+                            <a class="btn btn-default update" href="">محاسبـه هزینـه حمل و نقـل</a>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="total_area">
+
+                            <form method="post" name="payingForm">
+                                {% csrf_token %}
+                                <input type="hidden" name="hidden_input_form_name" value="payingForm">
+
+                                <ul>
+                                    <li>مجمـوع سبـد خریـد <span>{{ totalPriceOfAll|localize }} ريال</span></li>
+                                    <li>مالیـات (9%) <span>{{ tax|floatformat:0 }} ريال</span></li>
+                                    <li>هزینـه حمل و نقـل <span>10,000 ریال</span></li>
+                                    <li>مبلغ قابل پرداخت <span>{{ finalPrice|localize }} ريال</span></li>
+                                    {# this hidden input sends to server the total final price whithout using discount coupon : #}
+                                    <input type="hidden" name="final_price" value="{{ finalPrice }}">
+
+                                    {% if discountFinalPrice %}
+                                        {# this hidden input sends to server the price that user pays if he use a valid discount coupon : #}
+                                        <input type="hidden" name="discount_price" value="{{ discountFinalPrice }}">
+
+                                        <li style="background-color: #74CB56;font-weight: bold;">مبلغ قابل پرداخت پس از
+                                            اعمال کد تخفیف <span>{{ discountFinalPrice|localize }} ريال</span></li>
+                                    {% endif %}
+
+                                    <button type="submit" class="btn btn-default check_out">پرداخت</button>
+                                </ul>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section><!--/#do_action-->
+    {% endif %}
+
+
+
+{% endblock %}

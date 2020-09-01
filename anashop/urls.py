@@ -26,6 +26,7 @@ urlpatterns = [
     path('', include('ana_products.urls')),
     path('', include('ana_profile.urls')),
     path('', include('search.urls')),
+    path('', include('ana_cart.urls')),
     path('header', header, name='header'),
     path('footer', footer, name='footer'),
     path('admin/', admin.site.urls),

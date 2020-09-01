@@ -1,4 +1,5 @@
 from .models import Category
+from ana_account.models import MyCustomUserModel
 
 
 def navbar(request):
@@ -25,3 +26,15 @@ def is_products_in_navbar_active(request):
     return result
 
 
+# this function is for getting current user to display his/her avatar and username
+# at shared/Header if he/she has logged in (search this_user to find its returning value(current user))
+def get_current_user(request):
+    if request.user.is_authenticated:
+        curr_user_id = request.user.id
+        curr_user = MyCustomUserModel.objects.filter(id=curr_user_id).first()
+        curr_user = {
+            'this_user': curr_user
+        }
+        return curr_user
+    else:
+        return {}
