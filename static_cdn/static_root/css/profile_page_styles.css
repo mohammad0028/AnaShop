@@ -99,7 +99,36 @@ td {
 
 .details {
     text-align: center;
-    font-size: 20px;
     font-weight: bold;
 }
 
+.user_addresses {
+    margin-left: 20px;
+    margin-top: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+    width: 90%;
+    float: left;
+}
+
+.user_address {
+    margin-bottom: 5px;
+}
+
+.my-row-three {
+    font-weight: bold;
+}
+.noShoppedDiv{
+    text-align: center;
+}
+
+.noShopped{
+    margin-top: 40px;
+    font-size: 30px;
+    color: orange;
+}
+.sadPic{
+    margin-top: 60px;
+    width: 100px;
+    height: 100px;
+}

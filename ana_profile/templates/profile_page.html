@@ -19,7 +19,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="col-one">شماره تلفن همراه : <span style="color: #2a6496;">
+                            <td class="col-one">شماره تماس : <span style="color: #2a6496;">
                                 {% if current_user.phone_number is None %} &nbsp; {% else %}
                                     {{ current_user.phone_number }} {% endif %} </span>
                             </td>
@@ -29,6 +29,22 @@
                                     {{ current_user.melli_code }}{% endif %}</span>
                             </td>
                         </tr>
+
+                        <tr>
+                            <td class="my-row-three" colspan="2">آدرس ها : <span style="color: #2a6496;">
+                                {% if addresses.exists %}
+                                    <ul class="user_addresses">
+                                    {% for address in addresses %}
+                                        <li class="user_address"><span
+                                                class="glyphicon glyphicon-ok"></span> <span>{{ address.user_address }}</span></li>
+                                    {% endfor %}
+                                    </ul>
+                                {% else %} {% endif %} </span>
+                            </td>
+
+
+                        </tr>
+
                         <tr>
                             <td colspan="2" id="edit-btn"><a href="" style="color: orange;"><i class="fa fa-edit"
                                                                                                style="font-size: 18px;color: orange;"></i>
@@ -36,38 +52,47 @@
                         </tr>
                     </table>
 
-                    <table style="width:100%; margin-top: 50px;">
-                        <caption>لیست سفارشات</caption>
-                        <tr>
-                            <th class="num">#</th>
-                            <th class="order-num">شماره سفارش</th>
-                            <th class="order-date">تاریخ ثبت سفارش</th>
-                            <th class="paying-price">مبلغ قابل پرداخت</th>
-                            <th class="total-price">مبلغ کل</th>
-                            <th class="paying-status">عملیات پرداخت</th>
-                            <th class="details">جزییات</th>
-                        </tr>
-                        <tr>
-                            <td class="num">1</td>
-                            <td class="order-num">21</td>
-                            <td class="order-date">1398/5/2</td>
-                            <td class="paying-price">57000 تومان</td>
-                            <td class="total-price">65000 تومان</td>
-                            <td class="paying-status">پرداخت موفق</td>
-                            <td class="details"><a href=""><i class="fa fa-hand-o-left"
-                                                              style="font-size: 20px;"></i></a></td>
-                        </tr>
-                        <tr>
-                            <td class="num">2</td>
-                            <td class="order-num">25</td>
-                            <td class="order-date">1397/6/14</td>
-                            <td class="paying-price">114000 تومان</td>
-                            <td class="total-price">136000 تومان</td>
-                            <td class="paying-status">پرداخت موفق</td>
-                            <td class="details"><a href=""><i class="fa fa-hand-o-left"></i></a></td>
-                        </tr>
 
-                    </table>
+                    {% if shoppingCarts.exists %}
+
+                        <table style="width:100%; margin-top: 50px;margin-bottom: 80px;">
+                            <caption>لیست سفارشات</caption>
+                            <tr>
+                                <th class="num">#</th>
+                                <th class="order-num">شماره سفارش</th>
+                                <th class="order-date">تاریخ ثبت سفارش</th>
+                                <th class="total-price">مبلغ قابل پرداخت</th>
+                                <th class="paying-status">عملیات پرداخت</th>
+                                <th class="details">مشاهده جزییات</th>
+                            </tr>
+                            {% for cart in shoppingCarts %}
+
+                                <tr>
+                                    <td class="num">{{ forloop.counter }}</td>
+                                    <td class="order-num">{{ cart.id }}</td>
+                                    <td class="order-date">{{ cart.order_at|date }}</td>
+                                    <td class="total-price">{{ cart.total_price }} ریال</td>
+                                    <td class="paying-status">
+                                        {% if cart.ordered %}
+                                            <span style="font-size: 15px;color: #4cae4c;">پرداخت موفق</span>
+                                    {% else %}
+                                            <span style="font-size: 15px;color: #E21C0F;">پرداخت ناموفق</span>
+                                    {% endif %}
+                                    </td>
+                                    <td class="details"><a href=""><i class="fa fa-hand-o-left"
+                                                                      style="font-size: 20px;"></i></a></td>
+                                </tr>
+                            {% endfor %}
+
+
+                        </table>
+
+                    {% else %}
+                        <div class="noShoppedDiv">
+                            <img class="sadPic" src="{% static 'images/home/sadpicture.jpg' %}" alt="image">
+                            <p class="noShopped">شما تاکنون خریدی انجام نداده اید...</p>
+                        </div>
+                    {% endif %}
 
                 </div>
 

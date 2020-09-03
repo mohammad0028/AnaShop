@@ -2,7 +2,8 @@ from django.contrib.auth import authenticate, login, update_session_auth_hash
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from ana_account.models import MyCustomUserModel
+from ana_account.models import MyCustomUserModel, UserAddress
+from ana_cart.models import Cart
 from .forms import ChangePasswordForm
 from django import forms
 from django.contrib.auth.hashers import make_password
@@ -13,7 +14,6 @@ from django.contrib.auth.base_user import AbstractBaseUser
 
 
 def profile_page(request):
-
     if request.user.is_authenticated:
 
         # this user is the one which is located in users model at auth (admin panel)
@@ -22,9 +22,19 @@ def profile_page(request):
         current_user = MyCustomUserModel.objects.filter(id=current_user_id)
         current_user = current_user.first()
 
+        # user addresses :
+        addresses = UserAddress.objects.filter(user=current_user)
+
+        # user shopping cart (paid and unpaid)
+        shoppingCarts = Cart.objects.filter(user=current_user).order_by('-order_at')
+
         context = {
-            'current_user': current_user
+            'current_user': current_user,
+            'addresses': addresses,
+            'shoppingCarts': shoppingCarts
+
         }
+
         return render(request, 'profile_page.html', context)
 
 
