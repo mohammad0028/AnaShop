@@ -97,9 +97,9 @@
                         هزینه حمل و نقل خود را محاسبـه نمایید</p>
                 </div>
 
-{#                {% if showModal %}#}
-{#                    {% include 'shoppingCartModal.html' with message=message %}#}
-{#                {% endif %}#}
+                {#                {% if showModal %}#}
+                {#                    {% include 'shoppingCartModal.html' with message=message %}#}
+                {#                {% endif %}#}
 
                 <div class="row">
                     <div class="col-sm-6">
@@ -126,24 +126,25 @@
                             <ul class="user_info">
                                 <h3>محاسبـه هزینـه حمل و نقل</h3>
                                 <li class="single_field">
-                                    <label>استان :</label>
-                                    <select>
-                                        <option>تهـران</option>
-                                        <option>اصفهان</option>
-                                        <option>آذربایجان غربـی</option>
-                                        <option>آذربایجان شرقـی</option>
-                                    </select>
-
+                                    <form method="post">
+                                        <label>استان :</label>
+                                        <select required>
+                                            {% for province in provinces %}
+                                                <option>{{ province.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </form>
                                 </li>
                                 <li class="single_field">
-                                    <label>شهر / منطقه</label>
-                                    <select>
-                                        <option>تهران</option>
-                                        <option>اصفهان</option>
-                                        <option>خـوی</option>
-                                        <option>تبریـز</option>
-                                    </select>
-
+                                    <form>
+                                        <label>شهر / منطقه</label>
+                                        <select required>
+                                            <option>تهران</option>
+                                            <option>اصفهان</option>
+                                            <option>خـوی</option>
+                                            <option>تبریـز</option>
+                                        </select>
+                                    </form>
                                 </li>
                                 <li class="single_field zip-field">
                                     <label>کد پستی :</label>

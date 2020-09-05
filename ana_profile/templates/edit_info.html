@@ -1,0 +1,91 @@
+{% extends 'profile_page_components/profile_mainlayout.html' %}
+{% load static %}
+
+
+{% block content %}
+    <section>
+        <div class="container">
+            <div class="row" style="margin-top: 40px;">
+
+                <div class="col-sm-9 padding-right">
+
+                    <form method="post" name="editAvatarForm" enctype="multipart/form-data"
+                          style="width: 20%;display: inline-block;">
+                        {% csrf_token %}
+                        <input type="hidden" name="hidden_input_form_name" value="editAvatarForm">
+
+                        <img src="{{ current_user.profile_pic.url }}" alt="image" class="prof-image">
+
+                        <label class="btn btn-primary new-image" style="border-radius: 5px;">
+                            <i class="fa fa-image"></i>انتخاب تصویر<input type="file" style="display: none;"
+                                                                          name="profilePic">
+                        </label>
+                        <button type="submit" class="btn btn-default editAvatar">ذخیره</button>
+                    </form>
+
+                    <form method="post" name="userInfoForm" class="userInfo">
+                        {% csrf_token %}
+                        <input type="hidden" name="hidden_input_form_name" value="userInfoForm">
+
+                        <div class="labputs">
+                            <label for="userName" class="labels">نام کاربری :</label>
+                            <input type="text" name="userName" id="userName" class="inputs"
+                                   value="{{ current_user.username }}" required>
+                        </div>
+
+                        <div class="labputs">
+                            <label for="firstName" class="labels">نام :</label>
+                            <input type="text" name="firstName" id="firstName" class="inputs"
+                                   value="{{ current_user.first_name }}">
+                        </div>
+
+                        <div class="labputs">
+                            <label for="lastName" class="labels">نام خانوادگی :&nbsp</label>
+                            <input type="text" name="lastName" id="lastName" class="inputs"
+                                   value="{{ current_user.last_name }}">
+                        </div>
+
+                        <div class="labputs">
+                            <label for="email" class="labels">ایمیل :</label>
+                            <input type="text" name="email" id="email" class="inputs" value="{{ current_user.email }}" required>
+                        </div>
+
+                        <div class="labputs">
+                            <label for="melliCode" class="labels">کد ملی :</label>
+                            <input type="text" name="melliCode" id="melliCode" class="inputs"
+                                   value="{{ current_user.melli_code }}" maxlength="10">
+                        </div>
+
+                        <div class="labputs">
+                            <label for="phoneNumber" class="labels">شماره تماس :</label>
+                            <input type="text" name="phoneNumber" id="phoneNumber" class="inputs"
+                                   value="{{ current_user.phone_number }}" maxlength="11">
+                        </div>
+
+                        <div class="labputs">
+                            <button type="submit" class="btn btn-default submitInfo">ثبت اطلاعات</button>
+                        </div>
+
+                    </form>
+
+
+                </div>
+
+                <div class="col-sm-3">
+                    <div class="left-sidebar">
+
+                        {% include 'profile_page_components/profile_sidebar_component.html' %}
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <script>
+        $('#chooseFile').inputFileText({
+            text: 'تغییر تصویر'
+        });
+    </script>
+{% endblock %}
+

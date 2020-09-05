@@ -10,7 +10,7 @@ from django.db import models
 
 
 class MyCustomUserModel(User):
-    profile_pic = models.ImageField(upload_to='profile_imgs/', default='profile_imgs/default.png', blank=True)
+    profile_pic = models.ImageField(upload_to='profile_imgs/', default='profile_imgs/default.png', blank=True, null=True)
     melli_code = models.CharField(max_length=10, blank=True, null=True)
     phone_number = models.CharField(max_length=11, blank=True, null=True)
 

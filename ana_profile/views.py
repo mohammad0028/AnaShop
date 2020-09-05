@@ -7,7 +7,7 @@ from ana_cart.models import Cart
 from .forms import ChangePasswordForm
 from django import forms
 from django.contrib.auth.hashers import make_password
-from django.contrib.auth.base_user import AbstractBaseUser
+from django.core.files.storage import FileSystemStorage
 
 
 # Create your views here.
@@ -18,7 +18,7 @@ def profile_page(request):
 
         # this user is the one which is located in users model at auth (admin panel)
         current_user_id = request.user.id
-        # this user in the one which is located in MyCustomUserModel at ana_profile app(created by developer not auth)
+        # this user is the one which is located in MyCustomUserModel at ana_profile app(created by developer not auth)
         current_user = MyCustomUserModel.objects.filter(id=current_user_id)
         current_user = current_user.first()
 
@@ -112,3 +112,43 @@ def change_password(request):
             'change_password_form': change_password_form
         }
         return render(request, 'change_password.html', context)
+
+
+def edit_personal_info(request):
+    current_user_id = request.user.id
+    current_user = MyCustomUserModel.objects.filter(id=current_user_id).first()
+    context = {
+        'current_user': current_user,
+    }
+
+    if request.method == 'POST':
+        theFormName = request.POST.get('hidden_input_form_name')
+        # if change profile picture form is submitted:
+        if theFormName == 'editAvatarForm' and request.FILES.get('profilePic'):
+            img = request.FILES['profilePic']
+            cur_user = MyCustomUserModel.objects.get(id=current_user_id)
+            if cur_user.profile_pic != 'profile_imgs/default.png':
+                cur_user.profile_pic.delete()
+            cur_user.profile_pic = img
+            cur_user.save()
+            return redirect(request.path)
+        # if other user info form submitted :
+        elif theFormName == 'userInfoForm':
+            user_name = request.POST.get('userName')
+            first_name = request.POST.get('firstName')
+            last_name = request.POST.get('lastName')
+            email = request.POST.get('email')
+            melli_code = request.POST.get('melliCode')
+            phone_number = request.POST.get('phoneNumber')
+
+            cur_user = MyCustomUserModel.objects.get(id=current_user_id)
+            cur_user.username = user_name
+            cur_user.first_name = first_name
+            cur_user.last_name = last_name
+            cur_user.email = email
+            cur_user.melli_code = melli_code
+            cur_user.phone_number = phone_number
+            cur_user.save()
+            return redirect('profile')
+
+    return render(request, 'edit_info.html', context)

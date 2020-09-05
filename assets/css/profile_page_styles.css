@@ -118,17 +118,89 @@ td {
 .my-row-three {
     font-weight: bold;
 }
-.noShoppedDiv{
+
+.noShoppedDiv {
     text-align: center;
 }
 
-.noShopped{
+.noShopped {
     margin-top: 40px;
     font-size: 30px;
     color: orange;
 }
-.sadPic{
+
+.sadPic {
     margin-top: 60px;
     width: 100px;
     height: 100px;
+}
+
+
+/*the following css codes are for edit info page*/
+.prof-image {
+    width: 105px;
+    height: 105px;
+    border-radius: 50px;
+    /*display: block;*/
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.new-image {
+    display: block;
+    width: 100px;
+
+}
+
+.editAvatar {
+    display: block;
+    width: 100px;
+    background-color: #29A719;
+    color: white;
+    margin-top: 10px;
+}
+
+.userInfo {
+    /*display: inline;*/
+    margin-bottom: 70px;
+    margin-left: 200px;
+    float: left;
+    /*border: 1px solid black;*/
+    width: auto;
+}
+
+.labputs {
+    margin-top: 30px;
+    /*margin-left: 20px;*/
+    /*border: 1px solid green;*/
+
+}
+
+.labels {
+    /*display: inline-block;*/
+    margin-top: 8px;
+}
+
+.inputs {
+    /*display: inline-block;*/
+    float: left;
+    width: 330px;
+    height: 40px;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 16px;
+    border: 2px solid orange;
+    background-color: #CCCCC6;
+    color: #28288C;
+}
+
+.submitInfo{
+    /*display: block;*/
+    width: 330px;
+    height: 40px;
+    background-color: #29A719;
+    color: white;
+    margin-top: 10px;
+    font-size: 15px;
+    float: left;
 }

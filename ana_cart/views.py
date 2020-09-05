@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
-
 from ana_products.models import Product
 from .models import Cart, CartItem, Coupon, UsedCoupon
+from iran_db.models import IranShahr, IranOstan
 
 
 # Create your views here.
@@ -47,6 +47,10 @@ def shopping_cart(request):
         global finalPrice
         finalPrice = totalPriceOfAll + tax + transport_cost
         context['finalPrice'] = finalPrice
+
+        # sending list of provinces to province selection :
+        provinces = IranOstan.objects.all()
+        context['provinces'] = provinces
 
     else:
         context['noShoppingCartForThisUser'] = True
